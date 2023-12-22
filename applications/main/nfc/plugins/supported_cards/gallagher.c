@@ -32,7 +32,7 @@ static bool gallagher_parse(const NfcDevice* device, FuriString* parsed_data) {
         &data->block[credential_sector_start_block_number].data[0];
     uint64_t cardholder_credential = nfc_util_bytes2num(credential_block_start_ptr, 8);
     uint64_t cardholder_credential_inverse = nfc_util_bytes2num(credential_block_start_ptr + 8, 8);
-    // TODO: Is this accurate? Due to endianness, this is testing the bytes in the wrong order,
+    // Due to endianness, this is testing the bytes in the wrong order,
     // but the result still should be correct.
     if(cardholder_credential != ~cardholder_credential_inverse) {
         return false;
