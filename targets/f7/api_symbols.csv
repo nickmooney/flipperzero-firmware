@@ -1697,6 +1697,7 @@ Function,+,furi_timer_stop,FuriStatus,FuriTimer*
 Function,-,fwrite,size_t,"const void*, size_t, size_t, FILE*"
 Function,-,fwrite_unlocked,size_t,"const void*, size_t, size_t, FILE*"
 Function,+,gallagher_deobfuscate_and_parse_credential,void,"GallagherCredential*, const uint8_t*"
+Function,+,gallagher_obfuscate_credential,void,"uint8_t*, GallagherCredential"
 Function,-,gamma,double,double
 Function,-,gamma_r,double,"double, int*"
 Function,-,gammaf,float,float

@@ -28,3 +28,27 @@ void gallagher_deobfuscate_and_parse_credential(
                        (((uint32_t)cardholder_data_deobfuscated[3] >> 5) & 0x07);
     credential->issue = cardholder_data_deobfuscated[7] & 0x0F;
 }
+
+/* Precondition: We can write 16 bytes to destination.
+*/
+void gallagher_obfuscate_credential(uint8_t* destination, GallagherCredential credential) {
+    // First we perform the proprietary shuffling around of bits
+    // documented in the KawaiiCon talk.
+    uint8_t shuffled_credential[8] = {
+        (credential.card >> 16) & 0xFF,
+        (credential.facility >> 4) & 0xFF,
+        (credential.card >> 3) & 0xFF,
+        ((credential.card & 0x07) << 5) + (credential.region << 1),
+        (credential.card >> 11) & 0x1F,
+        (credential.facility >> 12) & 0x0F,
+        0, // UC, UD
+        (credential.facility << 4) + (credential.issue & 0x0F),
+    };
+
+    // Then we ensure that the full encoded (substituted) 8-byte credential is followed
+    // by its bitwise inverse.
+    for(int i = 0; i < 8; i++) {
+        destination[i] = GALLAGHER_ENCODE_TABLE[shuffled_credential[i]];
+        destination[8 + i] = ~destination[i];
+    }
+}

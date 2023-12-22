@@ -14,6 +14,7 @@ enum {
     SubmenuIndexDetectReader = SubmenuIndexCommonMax,
     SubmenuIndexWrite,
     SubmenuIndexUpdate,
+    SubmenuIndexGallagherEdit,
 };
 
 static void nfc_scene_info_on_enter_mf_classic(NfcApp* instance) {
@@ -146,6 +147,15 @@ static void nfc_scene_saved_menu_on_enter_mf_classic(NfcApp* instance) {
             nfc_protocol_support_common_submenu_callback,
             instance);
     }
+    // TODO: Replace this with a real check
+    if(true) {
+        submenu_add_item(
+            submenu,
+            "Edit Gallagher",
+            SubmenuIndexGallagherEdit,
+            nfc_protocol_support_common_submenu_callback,
+            instance);
+    }
     submenu_add_item(
         submenu,
         "Write to Initial Card",
@@ -187,6 +197,9 @@ static bool nfc_scene_saved_menu_on_event_mf_classic(NfcApp* instance, uint32_t 
         consumed = true;
     } else if(event == SubmenuIndexUpdate) {
         scene_manager_next_scene(instance->scene_manager, NfcSceneMfClassicUpdateInitial);
+        consumed = true;
+    } else if(event == SubmenuIndexGallagherEdit) {
+        scene_manager_next_scene(instance->scene_manager, NfcSceneMfClassicGallagherEdit);
         consumed = true;
     }
 
