@@ -1,4 +1,4 @@
-/* gallagher.c - Parser for Gallagher/Cardax cards (New Zealand).
+/* gallagher.c - NFC supported cards plugin for Gallagher access control cards (New Zealand).
  * Author: Nick Mooney (nick@mooney.nz)
  * 
  * Reference: https://github.com/megabug/gallagher-research
@@ -11,26 +11,6 @@
 #include <flipper_application/flipper_application.h>
 #include <nfc/helpers/nfc_util.h>
 #include <nfc/helpers/gallagher_util.h>
-
-#define TAG "Gallagher"
-
-/* To the best of my knowledge, this is never called (when configured correctly).
- * I can only find codepaths that lead to calling gallagher_read.
- * Perhaps with other types of tags, verify would be useful.
-*/
-/*
-static bool gallagher_verify(Nfc* nfc) {
-    const uint8_t block_num = mf_classic_get_first_block_num_of_sector(CREDENTIAL_SECTOR);
-    MfClassicAuthContext auth_context;
-    MfClassicError error = mf_classic_poller_sync_auth(
-        nfc, CREDENTIAL_SECTOR, (MfClassicKey*)&KEY_A, MfClassicKeyTypeA, &auth_context);
-    if(error != MfClassicErrorNone) {
-        FURI_LOG_D(TAG, "Failed to authenticate to block %u: %d", block_num, error);
-        return false;
-    }
-    return true;
-}
-*/
 
 static bool gallagher_parse(const NfcDevice* device, FuriString* parsed_data) {
     furi_assert(device);
@@ -69,16 +49,21 @@ static bool gallagher_parse(const NfcDevice* device, FuriString* parsed_data) {
     GallagherCredential credential;
     gallagher_deobfuscate_and_parse_credential(&credential, credential_block_start_ptr);
 
+    char display_region = 'A';
+    // Per https://github.com/megabug/gallagher-research/blob/master/formats/cardholder/cardholder.md,
+    // regions are generally A-P.
+    if(credential.region < 16) {
+        display_region = display_region + (char)credential.region;
+    } else {
+        display_region = '?';
+    }
+
     furi_string_cat_printf(
         parsed_data,
-        "\e#Gallagher NZ\nFAC: %02X %02X\nCARD: %02X %02X %02X %02X\nREGION: %02X ISSUE: %02X",
-        (credential.facility >> 8) & 0xFF,
-        credential.facility & 0xFF,
-        (uint8_t)((credential.card >> 24) & 0xFF),
-        (uint8_t)((credential.card >> 16) & 0xFF),
-        (uint8_t)((credential.card >> 8) & 0xFF),
-        (uint8_t)(credential.card & 0xFF),
-        credential.region,
+        "\e#Gallagher NZ\nFacility %c%u\nCard %lu (IL %u)",
+        display_region,
+        credential.facility,
+        credential.card,
         credential.issue);
     return true;
 }
