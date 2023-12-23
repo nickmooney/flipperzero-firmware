@@ -199,7 +199,9 @@ static bool nfc_scene_saved_menu_on_event_mf_classic(NfcApp* instance, uint32_t 
         scene_manager_next_scene(instance->scene_manager, NfcSceneMfClassicUpdateInitial);
         consumed = true;
     } else if(event == SubmenuIndexGallagherEdit) {
-        scene_manager_next_scene(instance->scene_manager, NfcSceneMfClassicGallagherEdit);
+        // "GallagherSelect" because we'll select which field to edit before hitting the actual
+        // editing view.
+        scene_manager_next_scene(instance->scene_manager, NfcSceneMfClassicGallagherSelect);
         consumed = true;
     }
 

@@ -1,5 +1,5 @@
 entry,status,name,type,params
-Version,+,53.1,,
+Version,+,53.2,,
 Header,+,applications/drivers/subghz/cc1101_ext/cc1101_ext_interconnect.h,,
 Header,+,applications/services/bt/bt_service/bt.h,,
 Header,+,applications/services/cli/cli.h,,
@@ -3321,6 +3321,10 @@ Function,-,yn,double,"int, double"
 Function,-,ynf,float,"int, float"
 Variable,-,AHBPrescTable,const uint32_t[16],
 Variable,-,APBPrescTable,const uint32_t[8],
+Variable,+,GALLAGHER_CARDAX_ASCII,const uint8_t[( 16 )],
+Variable,+,GALLAGHER_CREDENTIAL_SECTOR,const uint8_t,
+Variable,+,GALLAGHER_DECODE_TABLE,const uint8_t[256],
+Variable,+,GALLAGHER_ENCODE_TABLE,const uint8_t[256],
 Variable,-,ITM_RxBuffer,volatile int32_t,
 Variable,-,MSIRangeTable,const uint32_t[16],
 Variable,-,SmpsPrescalerTable,const uint32_t[4][6],

@@ -53,6 +53,7 @@ ADD_SCENE(nfc, mf_classic_keys_delete, MfClassicKeysDelete)
 ADD_SCENE(nfc, mf_classic_keys_add, MfClassicKeysAdd)
 ADD_SCENE(nfc, mf_classic_keys_warn_duplicate, MfClassicKeysWarnDuplicate)
 
+ADD_SCENE(nfc, mf_classic_gallagher_select, MfClassicGallagherSelect)
 ADD_SCENE(nfc, mf_classic_gallagher_edit, MfClassicGallagherEdit)
 
 ADD_SCENE(nfc, set_type, SetType)
