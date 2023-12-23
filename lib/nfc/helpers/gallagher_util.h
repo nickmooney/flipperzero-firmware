@@ -39,6 +39,8 @@ void gallagher_deobfuscate_and_parse_credential(
 
 void gallagher_obfuscate_credential(uint8_t* destination, GallagherCredential credential);
 
+bool mf_classic_is_gallagher(const MfClassicData* data);
+
 #ifdef __cplusplus
 }
 #endif

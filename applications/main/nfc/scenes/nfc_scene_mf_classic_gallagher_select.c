@@ -21,6 +21,8 @@ void nfc_scene_mf_classic_gallagher_select_on_enter(void* context) {
 
     GALLAGHER_CREDENTIAL_FIELDS_LIST
 #undef X
+
+    view_dispatcher_switch_to_view(instance->view_dispatcher, NfcViewMenu);
 }
 
 bool nfc_scene_mf_classic_gallagher_select_on_event(void* context, SceneManagerEvent event) {

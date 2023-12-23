@@ -105,3 +105,11 @@ void gallagher_obfuscate_credential(uint8_t* destination, GallagherCredential cr
         destination[8 + i] = ~destination[i];
     }
 }
+
+bool mf_classic_is_gallagher(const MfClassicData* data) {
+    const uint8_t credential_sector_start_block_number =
+        mf_classic_get_first_block_num_of_sector(GALLAGHER_CREDENTIAL_SECTOR);
+    const uint8_t* cardax_block_start_ptr =
+        &data->block[credential_sector_start_block_number + 1].data[0];
+    return memcmp(cardax_block_start_ptr, &GALLAGHER_CARDAX_ASCII, MF_CLASSIC_BLOCK_SIZE) == 0;
+}

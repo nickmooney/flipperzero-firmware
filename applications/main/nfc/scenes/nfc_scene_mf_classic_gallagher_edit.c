@@ -92,9 +92,10 @@ bool nfc_scene_mf_classic_gallagher_edit_on_event(void* context, SceneManagerEve
 
             // We've written to memory now, but we need to set the data of the NFC device
             nfc_device_set_data(device, NfcProtocolMfClassic, data);
-            // Note that this doesn't seem to _save_ to disk...
+            // And save it using the shadow file functionality.
+            // This means the user can easily restore it to the original read.
+            nfc_save_shadow_file(instance);
 
-            // This spits us out at a _blank_ byte input view...
             scene_manager_previous_scene(instance->scene_manager);
             consumed = true;
         }

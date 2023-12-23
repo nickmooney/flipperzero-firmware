@@ -39,9 +39,7 @@ static bool gallagher_parse(const NfcDevice* device, FuriString* parsed_data) {
     }
 
     // Test 2: The contents of the second block should be equal to the GALLAGHER_CARDAX_ASCII constant.
-    const uint8_t* cardax_block_start_ptr =
-        &data->block[credential_sector_start_block_number + 1].data[0];
-    if(memcmp(cardax_block_start_ptr, &GALLAGHER_CARDAX_ASCII, MF_CLASSIC_BLOCK_SIZE) != 0) {
+    if(!mf_classic_is_gallagher(data)) {
         return false;
     }
 

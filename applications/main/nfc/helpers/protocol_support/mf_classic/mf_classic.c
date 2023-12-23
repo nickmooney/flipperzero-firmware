@@ -2,6 +2,7 @@
 #include "mf_classic_render.h"
 
 #include <nfc/protocols/mf_classic/mf_classic_poller.h>
+#include <lib/nfc/helpers/gallagher_util.h>
 
 #include "nfc/nfc_app_i.h"
 
@@ -148,7 +149,7 @@ static void nfc_scene_saved_menu_on_enter_mf_classic(NfcApp* instance) {
             instance);
     }
     // TODO: Replace this with a real check
-    if(true) {
+    if(mf_classic_is_gallagher(data)) {
         submenu_add_item(
             submenu,
             "Edit Gallagher",
